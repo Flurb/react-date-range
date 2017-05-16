@@ -78,8 +78,8 @@ if (NODE_ENV === 'development') {
     }
   });
 
-  server.listen(3000, 'localhost', function(){
-    console.log('Webpack Dev Server is listening on port 3000');
+  server.listen(6969, 'localhost', function(){
+    console.log('Webpack Dev Server is listening on port 6969');
   });
 } else if (NODE_ENV === 'production') {
   compiler.run(function (err, stats) {

@@ -61,6 +61,7 @@ const defaultTheme = {
   },
 
   DayToday : {
+    background: 'red'
   },
 
   DaySunday: {
@@ -111,7 +112,6 @@ const defaultTheme = {
   },
 
   MonthButton : {
-    display       : 'block',
     boxSizing     : 'border-box',
     height        : 18,
     width         : 18,
@@ -123,6 +123,20 @@ const defaultTheme = {
     outline       : 'none',
     borderRadius  : '50%',
   },
+
+  YearButton : {
+    boxSizing     : 'border-box',
+    height        : 18,
+    width         : 18,
+    padding       : 0,
+    margin        : '0 10px',
+    border        : 'none',
+    background    : '#bdc3c7',
+    boxShadow     : 'none',
+    outline       : 'none',
+    borderRadius  : '50%',
+  },
+
 
   MonthArrow : {
     display       : 'block',
@@ -141,6 +155,28 @@ const defaultTheme = {
   },
 
   MonthArrowNext : {
+    borderLeftWidth  : '6px',
+    borderLeftColor  : '#34495e',
+    marginLeft       : 7,
+  },
+
+  YearArrow : {
+    display       : 'block',
+    width         : 0,
+    height        : 0,
+    padding       : 0,
+    margin        : 0,
+    border        : '4px solid transparent',
+    textAlign     : 'center'
+  },
+
+  YearArrowPrev : {
+    borderRightWidth : '6px',
+    borderRightColor : '#34495e',
+    marginLeft       : 1,
+  },
+
+  YearArrowNext : {
     borderLeftWidth  : '6px',
     borderLeftColor  : '#34495e',
     marginLeft       : 7,
@@ -236,6 +272,14 @@ export default (customTheme = {}) => {
     MonthArrowPrev : { ...defaultTheme.MonthArrowPrev, ...customTheme.MonthArrowPrev },
 
     MonthArrowNext : { ...defaultTheme.MonthArrowNext, ...customTheme.MonthArrowNext },
+
+    YearButton : { ...defaultTheme.YearButton, ...customTheme.YearButton },
+
+    YearArrow : { ...defaultTheme.YearArrow, ...customTheme.YearArrow },
+
+    YearArrowPrev : { ...defaultTheme.YearArrowPrev, ...customTheme.YearArrowPrev },
+
+    YearArrowNext : { ...defaultTheme.YearArrowNext, ...customTheme.YearArrowNext },
 
     PredefinedRanges : { ...defaultTheme.PredefinedRanges, ...customTheme.PredefinedRanges },
 

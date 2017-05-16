@@ -48,10 +48,13 @@ class Calendar extends Component {
       date,
       shownDate : (shownDate || range && range['endDate'] || date).clone().add(offset, 'months'),
       firstDayOfWeek: (firstDayOfWeek || moment.localeData().firstDayOfWeek()),
+      scroll: 'month'
     }
 
     this.state  = state;
     this.styles = getTheme(theme);
+    this.travelTroughTime = this.travelTroughTime.bind(this);
+    this.toggleClicker = this.toggleClicker.bind(this);
   }
 
   componentDidMount() {
@@ -87,7 +90,7 @@ class Calendar extends Component {
     }
   }
 
-  changeMonth(direction, event) {
+  travelTroughTime (direction, event) {
     event.preventDefault();
     const { link, linkCB } = this.props;
 
@@ -96,11 +99,24 @@ class Calendar extends Component {
     }
 
     const current  = this.state.shownDate.month();
-    const newMonth = this.state.shownDate.clone().add(direction, 'months');
+    let newDate;
 
+    if (this.state.scroll === 'month') {
+      newDate = this.state.shownDate.clone().add(direction, 'months');
+    } else {
+      newDate = this.state.shownDate.clone().add(direction, 'years');
+    }
     this.setState({
-      shownDate : newMonth
+      shownDate : newDate
     });
+  }
+
+  toggleClicker () {
+    if (this.state.scroll === 'month') {
+      this.setState({ scroll: 'year'});
+    } else {
+      this.setState({ scroll: 'month'});
+    }
   }
 
   renderMonthAndYear(classes) {
@@ -108,7 +124,7 @@ class Calendar extends Component {
     let month           = moment.months(shownDate.month());
     const year            = shownDate.year();
     const { styles }      = this;
-    const { onlyClasses, lang, showMonthArrow} = this.props;
+    const { onlyClasses, lang, showArrows} = this.props;
 
     let monthLower = month.toLowerCase()
     month = (lang && LangDic[lang] && LangDic[lang][monthLower]) ? LangDic[lang][monthLower] : month;
@@ -116,31 +132,29 @@ class Calendar extends Component {
     return (
       <div style={onlyClasses ? undefined : styles['MonthAndYear']} className={classes.monthAndYearWrapper}>
         {
-          showMonthArrow ?
-          <button
-            type="button"
-            style={onlyClasses ? undefined : { ...styles['MonthButton'], float : 'left' }}
-            className={classes.prevButton}
-            onClick={this.changeMonth.bind(this, -1)}>
-            <i style={onlyClasses ? undefined : { ...styles['MonthArrow'], ...styles['MonthArrowPrev'] }}></i>
-          </button> : null
+          showArrows ? 
+          <span style={{ float : 'left' }}>
+            <button 
+              className={classes.nextButton}
+              style={onlyClasses ? undefined : { ...styles['MonthButton'], display: 'inline' }}
+              onClick={(e) => this.travelTroughTime(-1, e)}><i style={onlyClasses ? undefined : { ...styles['MonthArrow'], ...styles['MonthArrowPrev'] }} /></button>
+          </span> : null
         }
-        <span>
-          <span className={classes.month}>{month}</span>
+        <span onClick={this.toggleClicker}>
+          <span className={classes.month}>{this.state.scroll === 'month' ? <strong>{month}</strong> : month}</span>
           <span className={classes.monthAndYearDivider}> - </span>
-          <span className={classes.year}>{year}</span>
+          <span className={classes.year}>{this.state.scroll === 'year' ? <strong>{year}</strong> : year}</span>
         </span>
         {
-          showMonthArrow ?
-          <button
-            type="button"
-            style={onlyClasses ? undefined : { ...styles['MonthButton'], float : 'right' }}
-            className={classes.nextButton}
-            onClick={this.changeMonth.bind(this, +1)}>
-            <i style={onlyClasses ? undefined : { ...styles['MonthArrow'], ...styles['MonthArrowNext'] }}></i>
-          </button> : null
+          showArrows ? 
+          <span style={{ float : 'right' }}>
+            <button 
+              className={classes.nextButton}
+              style={onlyClasses ? undefined : { ...styles['MonthButton'], display: 'inline' }}
+              onClick={(e) => this.travelTroughTime(1, e)}><i style={onlyClasses ? undefined : { ...styles['MonthArrow'], ...styles['MonthArrowNext'] }} /></button>
+          </span> : null
         }
-      </div>
+        </div>
     )
   }
 
@@ -219,7 +233,7 @@ class Calendar extends Component {
       const isStartEdge   = range && checkStartEdge(dayMoment, range);
       const isEndEdge     = range && checkEndEdge(dayMoment, range);
       const isEdge        = isStartEdge || isEndEdge;
-      const isToday       = today.isSame(dayMoment);
+      const isToday       = today.isSame(dayMoment.startOf('day'));
       const isSunday      = dayMoment.day() === 0;
       const isSpecialDay  = specialDays && specialDays.some((specialDay) => {
         return dayMoment.endOf('day').isSame(specialDay.date.endOf('day'));
@@ -266,7 +280,7 @@ class Calendar extends Component {
 Calendar.defaultProps = {
   format      : 'DD/MM/YYYY',
   theme       : {},
-  showMonthArrow: true,
+  showArrows  : true,
   disableDaysBeforeToday: false,
   onlyClasses : false,
   classNames  : {},
@@ -274,7 +288,7 @@ Calendar.defaultProps = {
 }
 
 Calendar.propTypes = {
-  showMonthArrow : PropTypes.bool,
+  showArrows : PropTypes.bool,
   disableDaysBeforeToday : PropTypes.bool,
   lang           : PropTypes.string,
   sets           : PropTypes.string,

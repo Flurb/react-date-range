@@ -47,7 +47,6 @@ $calendar-shadow: rgba($calendar-color, 0.25) 0 0 1em !default;
 }
 
 .rdr-MonthAndYear-button {
-    display: block;
     box-sizing: border-box;
     width: 18px;
     height: 18px;
@@ -60,7 +59,6 @@ $calendar-shadow: rgba($calendar-color, 0.25) 0 0 1em !default;
     box-shadow: none;
 
     i {
-        display: block;
         width: 0;
         height: 0;
         padding: 0;

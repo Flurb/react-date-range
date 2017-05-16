@@ -107,15 +107,13 @@ class DateRange extends Component {
   }
 
   render() {
-    const { ranges, format, linkedCalendars, style, calendars, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, specialDays, lang, disableDaysBeforeToday, offsetPositive, shownDate, showMonthArrow, rangedCalendars } = this.props;
+    const { ranges, format, linkedCalendars, style, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, specialDays, lang, disableDaysBeforeToday, offsetPositive, shownDate, showArrows, rangedCalendars } = this.props;
     const { range, link } = this.state;
     const { styles } = this;
-
     const classes = { ...defaultClasses, ...classNames };
     const yearsDiff = range.endDate.year() - range.startDate.year();
     const monthsDiff = range.endDate.month() - range.startDate.month();
     const diff = yearsDiff * 12 + monthsDiff;
-    const calendarsCount = Number(calendars) - 1;
 
     return (
       <div style={onlyClasses ? undefined : { ...styles['DateRange'], ...style }} className={classes.dateRange}>
@@ -131,21 +129,13 @@ class DateRange extends Component {
         )}
 
         {(()=>{
-          const _calendars = [];
-          const _method = offsetPositive ? 'unshift' : 'push';
-          for (var i = calendarsCount; i >= 0; i--) {
-            const offset = offsetPositive ? i : -i;
-            const realDiff = offsetPositive ? diff : -diff;
-            const realOffset = (rangedCalendars && i == calendarsCount && diff != 0) ? realDiff : offset;
-
-            _calendars[_method](
-              <Calendar
-                showMonthArrow={ showMonthArrow }
-                shownDate={ shownDate }
+          const _calendars = [
+            <Calendar
+                showArrows={ showArrows }
+                shownDate={ range.startDate }
                 disableDaysBeforeToday={ disableDaysBeforeToday }
                 lang={ lang }
-                key={i}
-                offset={ realOffset }
+                offset={ -diff }
                 link={ linkedCalendars && link }
                 linkCB={ this.handleLinkChange.bind(this) }
                 range={ range }
@@ -154,12 +144,29 @@ class DateRange extends Component {
                 theme={ styles }
                 minDate={ minDate }
                 maxDate={ maxDate }
-		            onlyClasses={ onlyClasses }
-		            specialDays={ specialDays }
+                onlyClasses={ onlyClasses }
+                specialDays={ specialDays }
+                classNames={ classes }
+                onChange={ this.handleSelect.bind(this) }  />,
+            <Calendar
+                showArrows={ showArrows }
+                shownDate={ range.endDate }
+                disableDaysBeforeToday={ disableDaysBeforeToday }
+                lang={ lang }
+                offset={ 0 }
+                link={ linkedCalendars && link }
+                linkCB={ this.handleLinkChange.bind(this) }
+                range={ range }
+                format={ format }
+                firstDayOfWeek={ firstDayOfWeek }
+                theme={ styles }
+                minDate={ minDate }
+                maxDate={ maxDate }
+                onlyClasses={ onlyClasses }
+                specialDays={ specialDays }
                 classNames={ classes }
                 onChange={ this.handleSelect.bind(this) }  />
-            );
-          }
+          ]
           return _calendars;
         })()}
       </div>
@@ -171,7 +178,6 @@ DateRange.defaultProps = {
   linkedCalendars : false,
   theme           : {},
   format          : 'DD/MM/YYYY',
-  calendars       : 2,
   onlyClasses     : false,
   offsetPositive  : false,
   classNames      : {},
@@ -183,7 +189,6 @@ DateRange.defaultProps = {
 DateRange.propTypes = {
   format          : PropTypes.string,
   firstDayOfWeek  : PropTypes.number,
-  calendars       : PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   startDate       : PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
   endDate         : PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
   minDate         : PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),

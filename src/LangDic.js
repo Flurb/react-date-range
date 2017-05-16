@@ -20,6 +20,27 @@ export default {
     'fr':'五',
     'sa':'六'
   },
+  'nl' : { // Dutch
+    'january':'januari',
+    'february':'februari',
+    'march':'maart',
+    'april':'april',
+    'may':'mei',
+    'june':'juni',
+    'july':'juli',
+    'august':'augustus',
+    'september':'september',
+    'october':'oktober',
+    'november':'november',
+    'december':'december',
+    'su':'Zondag',
+    'mo':'Maandag',
+    'tu':'Dinsdag',
+    'we':'Woensdag',
+    'th':'Donderdag',
+    'fr':'Vrijdag',
+    'sa':'Zaterdag'
+  },
   'jp' : { // Japanese
     'january':'1月',
     'february':'2月',
