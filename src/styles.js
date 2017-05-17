@@ -61,7 +61,6 @@ const defaultTheme = {
   },
 
   DayToday : {
-    background: 'red'
   },
 
   DaySunday: {

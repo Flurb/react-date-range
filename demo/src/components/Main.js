@@ -55,6 +55,7 @@ export default class Main extends Component {
             endDate={ now => {
               return '11/12/2015';
             }}
+            onCloseCallback={() => console.log('close')}
             onInit={ this.handleChange.bind(this, 'rangePicker') }
             onChange={ this.handleChange.bind(this, 'rangePicker') }
           />

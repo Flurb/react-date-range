@@ -25,25 +25,25 @@ class PredefinedRanges extends Component {
   }
 
   renderRangeList(classes) {
-    const { ranges, range, onlyClasses } = this.props;
+    const { ranges, range, onlyClasses, addCloseButton, onCloseCallback } = this.props;
     const { styles } = this;
 
-    return Object.keys(ranges).map(name => {
+
+    const items = Object.keys(ranges).map(name => {
       const active = (
         parseInput(ranges[name].startDate, null, 'startOf').isSame(range.startDate) &&
         parseInput(ranges[name].endDate, null, 'endOf').isSame(range.endDate)
       );
-
-      const style = {
-        ...styles['PredefinedRangesItem'],
-        ...(active ? styles['PredefinedRangesItemActive'] : {}),
-      };
 
       const predefinedRangeClass = classnames({
         [classes.predefinedRangesItem]: true,
         [classes.predefinedRangesItemActive]: active
       });
 
+      const style = {
+        ...styles['PredefinedRangesItem'],
+        ...(active ? styles['PredefinedRangesItemActive'] : {}),
+      };
       return (
         <a
           href='#'
@@ -56,6 +56,21 @@ class PredefinedRanges extends Component {
         </a>
       );
     }.bind(this));
+
+    if (addCloseButton) {
+      items.push(<hr key='horRule'/>);
+      items.push(        
+        <a
+          href='#'
+          key={'range-close'}
+          className={classnames(classes.predefinedRangesItem, classes.predefinedRangesItemActive)}
+          style={{ ...styles['PredefinedRangesItem'], ...styles['PredefinedRangesItemActive'] }}
+          onClick={onCloseCallback}
+        >
+          Close
+        </a>)
+    }
+    return items;
   }
 
   render() {

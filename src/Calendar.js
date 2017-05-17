@@ -5,6 +5,7 @@ import parseInput from './utils/parseInput.js';
 import DayCell from './DayCell.js';
 import LangDic from './LangDic.js';
 import getTheme, { defaultClasses } from './styles.js';
+import Toggle from 'react-toggle';
 
 function checkRange(dayMoment, range) {
   return (
@@ -140,10 +141,13 @@ class Calendar extends Component {
               onClick={(e) => this.travelTroughTime(-1, e)}><i style={onlyClasses ? undefined : { ...styles['MonthArrow'], ...styles['MonthArrowPrev'] }} /></button>
           </span> : null
         }
-        <span onClick={this.toggleClicker}>
-          <span className={classes.month}>{this.state.scroll === 'month' ? <strong>{month}</strong> : month}</span>
-          <span className={classes.monthAndYearDivider}> - </span>
-          <span className={classes.year}>{this.state.scroll === 'year' ? <strong>{year}</strong> : year}</span>
+        <span style={{ width: '280px!important' }} >
+          <span style={{ paddingRight: '1rem' }} className={classes.month}>{this.state.scroll === 'month' ? <strong>{month}</strong> : month}</span>
+          <Toggle
+            icons={false}
+            defaultChecked={this.state.scroll == 'year'}
+            onChange={this.toggleClicker} />
+          <span style={{ paddingLeft: '1rem' }} className={classes.year}>{this.state.scroll === 'year' ? <strong>{year}</strong> : year}</span>
         </span>
         {
           showArrows ? 

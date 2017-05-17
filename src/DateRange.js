@@ -107,14 +107,13 @@ class DateRange extends Component {
   }
 
   render() {
-    const { ranges, format, linkedCalendars, style, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, specialDays, lang, disableDaysBeforeToday, offsetPositive, shownDate, showArrows, rangedCalendars } = this.props;
+    const { ranges, format, linkedCalendars, style, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, specialDays, lang, disableDaysBeforeToday, offsetPositive, shownDate, showArrows, rangedCalendars, addCloseButton, onCloseCallback } = this.props;
     const { range, link } = this.state;
     const { styles } = this;
     const classes = { ...defaultClasses, ...classNames };
     const yearsDiff = range.endDate.year() - range.startDate.year();
     const monthsDiff = range.endDate.month() - range.startDate.month();
     const diff = yearsDiff * 12 + monthsDiff;
-
     return (
       <div style={onlyClasses ? undefined : { ...styles['DateRange'], ...style }} className={classes.dateRange}>
         { ranges && (
@@ -125,50 +124,47 @@ class DateRange extends Component {
             theme={ styles }
             onSelect={this.handleSelect.bind(this)}
             onlyClasses={ onlyClasses }
-            classNames={ classes } />
+            classNames={ classes } 
+            addCloseButton={addCloseButton}
+            onCloseCallback={onCloseCallback}/>
         )}
-
-        {(()=>{
-          const _calendars = [
-            <Calendar
-                showArrows={ showArrows }
-                shownDate={ range.startDate }
-                disableDaysBeforeToday={ disableDaysBeforeToday }
-                lang={ lang }
-                offset={ -diff }
-                link={ linkedCalendars && link }
-                linkCB={ this.handleLinkChange.bind(this) }
-                range={ range }
-                format={ format }
-                firstDayOfWeek={ firstDayOfWeek }
-                theme={ styles }
-                minDate={ minDate }
-                maxDate={ maxDate }
-                onlyClasses={ onlyClasses }
-                specialDays={ specialDays }
-                classNames={ classes }
-                onChange={ this.handleSelect.bind(this) }  />,
-            <Calendar
-                showArrows={ showArrows }
-                shownDate={ range.endDate }
-                disableDaysBeforeToday={ disableDaysBeforeToday }
-                lang={ lang }
-                offset={ 0 }
-                link={ linkedCalendars && link }
-                linkCB={ this.handleLinkChange.bind(this) }
-                range={ range }
-                format={ format }
-                firstDayOfWeek={ firstDayOfWeek }
-                theme={ styles }
-                minDate={ minDate }
-                maxDate={ maxDate }
-                onlyClasses={ onlyClasses }
-                specialDays={ specialDays }
-                classNames={ classes }
-                onChange={ this.handleSelect.bind(this) }  />
-          ]
-          return _calendars;
-        })()}
+        
+        <Calendar
+            showArrows={ showArrows }
+            shownDate={ range.startDate }
+            disableDaysBeforeToday={ disableDaysBeforeToday }
+            lang={ lang }
+            offset={ 0 }
+            link={ linkedCalendars && link }
+            linkCB={ this.handleLinkChange.bind(this) }
+            range={ range }
+            format={ format }
+            firstDayOfWeek={ firstDayOfWeek }
+            theme={ styles }
+            minDate={ minDate }
+            maxDate={ maxDate }
+            onlyClasses={ onlyClasses }
+            specialDays={ specialDays }
+            classNames={ classes }
+            onChange={ this.handleSelect.bind(this) }  />
+        <Calendar
+            showArrows={ showArrows }
+            shownDate={ range.endDate }
+            disableDaysBeforeToday={ disableDaysBeforeToday }
+            lang={ lang }
+            offset={ 0 }
+            link={ linkedCalendars && link }
+            linkCB={ this.handleLinkChange.bind(this) }
+            range={ range }
+            format={ format }
+            firstDayOfWeek={ firstDayOfWeek }
+            theme={ styles }
+            minDate={ minDate }
+            maxDate={ maxDate }
+            onlyClasses={ onlyClasses }
+            specialDays={ specialDays }
+            classNames={ classes }
+            onChange={ this.handleSelect.bind(this) }  />
       </div>
     );
   }
@@ -184,9 +180,12 @@ DateRange.defaultProps = {
   specialDays     : [],
   rangedCalendars : false,
   twoStepChange   : false,
+  addCloseButton  : true
 }
 
 DateRange.propTypes = {
+  lang            : PropTypes.string,
+  addCloseButton  : PropTypes.bool,
   format          : PropTypes.string,
   firstDayOfWeek  : PropTypes.number,
   startDate       : PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
@@ -205,6 +204,7 @@ DateRange.propTypes = {
   offsetPositive  : PropTypes.bool,
   classNames      : PropTypes.object,
   rangedCalendars : PropTypes.bool,
+  onCloseCallback : PropTypes.func
 }
 
 export default DateRange;

@@ -33,13 +33,13 @@ export default {
     'october':'oktober',
     'november':'november',
     'december':'december',
-    'su':'Zondag',
-    'mo':'Maandag',
-    'tu':'Dinsdag',
-    'we':'Woensdag',
-    'th':'Donderdag',
-    'fr':'Vrijdag',
-    'sa':'Zaterdag'
+    'su':'Zo',
+    'mo':'Ma',
+    'tu':'Di',
+    'we':'Wo',
+    'th':'Do',
+    'fr':'Vr',
+    'sa':'Za'
   },
   'jp' : { // Japanese
     'january':'1月',
