@@ -19,18 +19,16 @@ var config = {
   devtool               : ((NODE_ENV==='development') ? 'source-map' : false),
 
   plugins               : [
-    new HtmlWebpackPlugin({
-      title             : '',
-      template          : path.join(__dirname, '/src/index.html'),
-      inject            : true,
-      filename          : 'index.html'
-    }),
-
     new webpack.DefinePlugin({
-      'process.env'     : {
+       'process.env'     : {
         NODE_ENV        : JSON.stringify(NODE_ENV)
       }
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, '/src/index.html'),
+      filename: 'index.html',
+      inject: true
+    })
   ],
 
   resolve               : {
@@ -45,11 +43,16 @@ var config = {
   module                : {
     loaders             : [
       { test            : /\.js$/,
-        loaders         : ['babel-loader'],
-        include         : path.join(__dirname, '/src')
+        loader          : 'babel',
+        query: {
+          cacheDirectory: true,
+          plugins: ['transform-runtime'],
+          presets: ['es2015', 'react', 'stage-0'],
+        },
+        exclude         : /node_modules/
       }, {
         test            : /\.s?css$/,
-        loader        : 'style!css!sass'
+        loaders         : ['style', 'css', 'sass']
       }
     ]
   }

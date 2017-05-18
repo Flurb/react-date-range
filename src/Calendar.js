@@ -5,7 +5,7 @@ import parseInput from './utils/parseInput.js';
 import DayCell from './DayCell.js';
 import LangDic from './LangDic.js';
 import getTheme, { defaultClasses } from './styles.js';
-import Toggle from 'react-toggle';
+const Toggle = require('react-toggle').default
 
 function checkRange(dayMoment, range) {
   return (

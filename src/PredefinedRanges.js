@@ -55,7 +55,7 @@ class PredefinedRanges extends Component {
           {name}
         </a>
       );
-    }.bind(this));
+    });
 
     if (addCloseButton) {
       items.push(<hr key='horRule'/>);
