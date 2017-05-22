@@ -25,24 +25,32 @@ class PredefinedRanges extends Component {
   }
 
   renderRangeList(classes) {
-    const { ranges, range, onlyClasses, addCloseButton, onCloseCallback } = this.props;
+    const { ranges, range, onlyClasses, addCloseButton, onCloseCallback, defaultActivePreset } = this.props;
     const { styles } = this;
 
+    const anyActive = Object.keys(ranges).some((name, i) => {
+      const active = (
+        parseInput(ranges[name].startDate, null, 'startOf').isSame(range.startDate) &&
+        parseInput(ranges[name].endDate, null, 'endOf').isSame(range.endDate)
+      );
+      return active;
+    });
 
-    const items = Object.keys(ranges).map(name => {
+    const items = Object.keys(ranges).map((name, i) => {
       const active = (
         parseInput(ranges[name].startDate, null, 'startOf').isSame(range.startDate) &&
         parseInput(ranges[name].endDate, null, 'endOf').isSame(range.endDate)
       );
 
+      const setActive = anyActive ? active : name === defaultActivePreset
       const predefinedRangeClass = classnames({
         [classes.predefinedRangesItem]: true,
-        [classes.predefinedRangesItemActive]: active
+        [classes.predefinedRangesItemActive]: setActive
       });
 
       const style = {
         ...styles['PredefinedRangesItem'],
-        ...(active ? styles['PredefinedRangesItemActive'] : {}),
+        ...(setActive ? styles['PredefinedRangesItemActive'] : {}),
       };
       return (
         <a
@@ -98,7 +106,8 @@ PredefinedRanges.defaultProps = {
 PredefinedRanges.propTypes = {
   ranges      : PropTypes.object.isRequired,
   onlyClasses : PropTypes.bool,
-  classNames  : PropTypes.object
+  classNames  : PropTypes.object,
+  defaultActivePreset: PropTypes.string
 }
 
 export default PredefinedRanges;

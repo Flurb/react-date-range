@@ -68,7 +68,6 @@ class DayCell extends Component {
     const specialDayStyle = isSpecialDay ? styles['DaySpecialDay'] : {};
 
     return {
-      ...todayStyle,
       ...sundayStyle,
       ...specialDayStyle,
       ...inRangeStyle,
@@ -77,7 +76,8 @@ class DayCell extends Component {
       ...activeStyle,
       ...selectedStyle,
       ...startEdgeStyle,
-      ...endEdgeStyle
+      ...endEdgeStyle,
+      ...todayStyle
     };
   }
 

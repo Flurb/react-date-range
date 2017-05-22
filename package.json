@@ -1,6 +1,6 @@
 {
   "name": "react-dual-date-range",
-  "version": "0.0.5",
+  "version": "0.0.9",
   "description": "A React component for choosing dates and date ranges. Based on react-date-range",
   "main": "lib/index.js",
   "scripts": {
